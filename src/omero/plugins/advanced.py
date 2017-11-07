@@ -57,18 +57,20 @@ class AdvancedControl(BaseControl):
         session_id = conn.getSessionId()
         self.ctx.out("Connected with session ID %s " % session_id)
 
-        # Interact with the server via the ServiceFactory,
+        # Interact with the server via the ServiceFactory (sf),
         # see omero/api/ServiceFactory documentation
-        service_factory = conn.sf
-        config_service = service_factory.getConfigService()
+        config_service = conn.sf.getConfigService()
         server_version = config_service.getVersion()
         self.ctx.out("Server version %s " % server_version)
 
     def bar(self, args):
         # Throw an exception
-        raise Exception("Some error occurred")
+        raise Exception("Not implemented yet.")
 
 try:
+    # Register the plugin with the name 'advanced'
+    # i.e. it will be available as `./omero advanced ...`
+    # on the command line
     register("advanced", AdvancedControl, HELP)
 except NameError:
     if __name__ == "__main__":

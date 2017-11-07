@@ -36,7 +36,7 @@ How to write a custom plugin
 ============================
 
 * Create a `omero/plugins` directory, e. g. `mkdir -p ~/my_cli_plugin/omero/plugins`
-* Add this directory to the `PYTHONPATH`, `export PYTHONPATH=$PYTHONPATH:~/my_cli_plugin`
+* Add this directory to the `PYTHONPATH`: `export PYTHONPATH=$PYTHONPATH:~/my_cli_plugin`
 * Create `[PLUGIN NAME]Control.py` in the `omero/plugins` directory 
 * Copy and paste the [advanced.py](https://github.com/dominikl/omero-cli-example/blob/master/src/omero/plugins/advanced.py)
   example to get started.
@@ -48,7 +48,15 @@ Essential properties of a plugin
 * Must implement the `_configure` method, which
   * sets up the `parser` with the arguments the plugin supports
   * tells the `parser` via `set_defaults` which method to call when the plugin is called
-* Must call `register` to register the plugin with the CLI
+* Must call `register` to register the plugin with the CLI with a certain name
+
+Run the plugin
+--------------
+Before you go into the details of the implementation, perform some tests to check if the 
+plugin is correctly registered and launched from the CLI:
+
+* Run `./omero --help`: The plugin should be listed under the available subcommands section.
+* Run `./omero [REGISTERED PLUGIN NAME] --help`: The HELP text you specified for the plugin should be displayed.
 
 
 How to write an integration test for a custom plugin
@@ -65,7 +73,12 @@ Example: [test_simple.py](https://github.com/dominikl/omero-cli-example/blob/mas
 
 Run an integration test
 -----------------------
+Prerequisites:
+* Needs a server running locally
+* Check that `etc/ice.config` contains valid user credentials for the server (see `omero.user` and `omero.pass`)
+* Check that `ICE_CONFIG` environment variable points to this `etc/ice.config` file
 * Add the plugin directory itself to the `PYTHONPATH`: 
   `export PYTHONPATH=$PYTHONPATH:~/my_cli_plugin/omero/plugins`
-* Run the test using the `test` build target:
+  
+Then run the test using the `test` build target:
   `./build.py -f components/tools/OmeroPy/build.xml test -DTEST=[Full path to test_[PLUGIN NAME].py]`

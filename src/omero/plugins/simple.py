@@ -22,6 +22,9 @@ class SimpleControl(BaseControl):
         print("Do something with "+some_argument)
 
 try:
+    # Register the plugin with the name 'simple'
+    # i.e. it will be available as `./omero simple ...`
+    # on the command line
     register("simple", SimpleControl, HELP)
 except NameError:
     if __name__ == "__main__":
