@@ -1,5 +1,5 @@
 from simple import SimpleControl
-from test.integration.clitest.cli import CLITest
+from omero.testlib.cli import CLITest
 import pytest
 
 # some parameter values to test
